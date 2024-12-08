@@ -11,7 +11,7 @@ class TaskService {
     // Create a query object for filtering and searching
     const query = {
       ...filterCriteria,
-      ...(searchString ? { title: { $regex: searchString, $options: 'i' } } : {}),
+      ...(searchString ? { title: { $regex: searchString, $options: 'i' } } : {})
     };
 
     // Fetch tasks and total count with sorting and filtering
@@ -20,7 +20,7 @@ class TaskService {
 
     return { tasks, count };
   }
-  
+
   async getTaskByTitle(title) {
     return await Task.findOne({ title });
   }
@@ -37,6 +37,19 @@ class TaskService {
   // Delete Task
   async deleteTaskById(id) {
     return await Task.findByIdAndDelete(id);
+  }
+
+  async softDeleteTaskById(taskId) {
+    try {
+      const task = await Task.findByIdAndUpdate(
+        taskId,
+        { deletedAt: new Date() }, // Set the deletedAt field to the current date
+        { new: true } // Return the updated task
+      );
+      return task;
+    } catch (error) {
+      throw new Error('Error deleting task');
+    }
   }
 }
 

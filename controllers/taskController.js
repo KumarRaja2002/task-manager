@@ -50,7 +50,7 @@ exports.getTasks = async (req, res, next) => {
       data: tasks,
       data_field: 'tasks',
       message: 'Tasks retrieved successfully',
-      searchString,
+      searchString
     });
 
     // Send the response
@@ -102,6 +102,21 @@ exports.deleteTask = async (req, res, next) => {
       throw error;
     }
     res.status(200).json({ success: true, message: 'Task deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Soft Delete Task
+exports.softDeleteTask = async (req, res, next) => {
+  try {
+    const task = await taskService.softDeleteTaskById(req.params.id);
+    if (!task) {
+      const error = new Error('Task not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json({ success: true, message: 'Task soft deleted successfully',data: task });
   } catch (error) {
     next(error);
   }

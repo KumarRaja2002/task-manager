@@ -22,6 +22,10 @@ const taskSchema = new mongoose.Schema({
   dueDate: {
     type: Date,
   },
+  deletedAt: {
+    type: Date,
+    default: null, // If the task is not deleted, this field will be null
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Task', taskSchema);
