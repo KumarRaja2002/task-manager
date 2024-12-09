@@ -11,3 +11,6 @@ DATABASE_URL=<your-database-url>
 PORT=<your-port>
 
 npm start
+
+go through my post man documentation:
+https://documenter.getpostman.com/view/37161853/2sAYBd67XE
